@@ -1,0 +1,55 @@
+# render.yaml — Render Blueprint
+#
+# Deploys the FastAPI backend + a free Redis (Key Value) instance.
+#
+# PostgreSQL is intentionally NOT included here: use a free Neon database
+# (https://neon.tech) instead, so your data survives past Render's 30-day
+# free Postgres expiry. Create the Neon DB first, then paste its connection
+# string into DATABASE_URL when prompted during Blueprint creation.
+#
+# To deploy: push this repo to GitHub, then in the Render dashboard choose
+# "New +" -> "Blueprint" and point it at this repo.
+
+services:
+  - type: web
+    name: itam-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    dockerCommand: bash entrypoint.sh
+    plan: free
+    region: oregon
+    branch: main
+    healthCheckPath: /health
+    envVars:
+      - key: APP_NAME
+        value: "IT Asset Management System"
+      - key: APP_VERSION
+        value: "1.0.0"
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        sync: false   # paste your Neon connection string here when prompted
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "720"
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: "7"
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: itam-redis
+          property: connectionString
+      - key: CORS_ORIGINS
+        sync: false   # set to your deployed frontend URL, e.g. https://your-app.vercel.app
+      - key: SEED_DEMO_DATA
+        value: "true"  # set to "false" for a clean, non-demo deployment
+
+  - type: keyvalue
+    name: itam-redis
+    plan: free
+    region: oregon
+    ipAllowList: []   # empty = only accessible from within Render's network

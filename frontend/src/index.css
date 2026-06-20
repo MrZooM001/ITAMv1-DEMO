@@ -1,0 +1,249 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@import "@syncfusion/ej2-base/styles/tailwind.css";
+@import "@syncfusion/ej2-buttons/styles/tailwind.css";
+@import "@syncfusion/ej2-calendars/styles/tailwind.css";
+@import "@syncfusion/ej2-dropdowns/styles/tailwind.css";
+@import "@syncfusion/ej2-inputs/styles/tailwind.css";
+@import "@syncfusion/ej2-navigations/styles/tailwind.css";
+@import "@syncfusion/ej2-popups/styles/tailwind.css";
+@import "@syncfusion/ej2-splitbuttons/styles/tailwind.css";
+@import "@syncfusion/ej2-react-grids/styles/tailwind.css";
+
+/* ── Enable dark mode via class strategy ─────────────────── */
+@variant dark (&:where(.dark, .dark *));
+
+@import "tailwindcss";
+
+/* ── CSS Variables ────────────────────────────────────────── */
+:root {
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* Light mode */
+  --bg-base: #f9fafb;
+  --bg-surface: #ffffff;
+  --bg-surface-2: #f3f4f6;
+  --border-color: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+}
+
+.dark {
+  --bg-base: #0f172a;
+  --bg-surface: #1e293b;
+  --bg-surface-2: #273549;
+  --border-color: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+}
+
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 99px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* ── Focus ring ───────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* ── Page animation ───────────────────────────────────────── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: fadeIn 200ms ease forwards;
+}
+
+/* ── Shared input field ───────────────────────────────────── */
+.input-field {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  padding-left: 34px !important;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--text-primary);
+  background-color: var(--bg-surface);
+  transition: border-color 150ms, box-shadow 150ms, background-color 200ms;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.input-field::placeholder {
+  color: var(--text-muted);
+}
+
+.input-field:disabled {
+  background-color: var(--bg-surface-2);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* ── Syncfusion dark mode overrides ───────────────────────── */
+.dark .e-grid-custom.e-grid {
+  background: var(--bg-surface) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dark .e-grid-custom .e-gridheader {
+  background: var(--bg-surface-2) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dark .e-grid-custom .e-headercell {
+  background: var(--bg-surface-2) !important;
+  color: var(--text-secondary) !important;
+}
+
+.dark .e-grid-custom .e-row td {
+  background: var(--bg-surface) !important;
+  border-color: var(--bg-surface-2) !important;
+  color: var(--text-primary) !important;
+}
+
+.dark .e-grid-custom .e-row:hover td {
+  background: var(--bg-surface-2) !important;
+}
+
+.dark .e-grid-custom .e-toolbar {
+  background: var(--bg-surface) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dark .e-grid-custom .e-gridpager {
+  background: var(--bg-surface) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-secondary) !important;
+}
+
+/* ── Syncfusion Grid Custom Overrides (light) ─────────────── */
+.e-grid-custom.e-grid {
+  border: none !important;
+  border-radius: 0 !important;
+  font-family: var(--font-sans) !important;
+}
+
+.e-grid-custom .e-gridheader {
+  background-color: #f9fafb !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+
+.e-grid-custom .e-headercell {
+  background-color: #f9fafb !important;
+  color: #6b7280 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 12px 16px !important;
+}
+
+.e-grid-custom .e-row td {
+  padding: 12px 16px !important;
+  border-bottom: 1px solid #f9fafb !important;
+  color: #374151 !important;
+  font-size: 13px !important;
+  cursor: pointer;
+}
+
+.e-grid-custom .e-row:hover td {
+  background-color: #f0f7ff !important;
+}
+
+.e-grid-custom .e-row.e-altrow td {
+  background-color: #fafafa !important;
+}
+
+.e-grid-custom .e-row.e-altrow:hover td {
+  background-color: #f0f7ff !important;
+}
+
+.e-grid-custom .e-selectionbackground td {
+  background-color: #eff6ff !important;
+}
+
+.e-grid-custom .e-toolbar {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+  padding: 8px 12px !important;
+}
+
+.e-grid-custom .e-toolbar .e-tbar-btn {
+  border-radius: 8px !important;
+  font-size: 12px !important;
+}
+
+.e-grid-custom .e-search-wrapper {
+  border-radius: 8px !important;
+}
+
+.e-grid-custom .e-gridpager {
+  border-top: 1px solid #f3f4f6 !important;
+  background-color: #ffffff !important;
+  padding: 8px 16px !important;
+}
+
+.e-grid-custom .e-pager .e-currentitem {
+  background-color: #2563eb !important;
+  border-radius: 6px !important;
+  color: #fff !important;
+}
+
+.e-grid-custom .e-content::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+
+.e-grid-custom .e-content::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 99px;
+}
