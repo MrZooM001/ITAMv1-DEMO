@@ -6,7 +6,7 @@ from typing import Optional
 from app.models.device import DeviceStatus
 
 
-# ----- Assets Inventory Report -----
+# ── Assets Inventory Report ────────────────────────────────────
 class AssetInventoryItem(BaseModel):
     device_id: UUID
     device_name: str
@@ -33,7 +33,7 @@ class AssetInventoryReport(BaseModel):
     items: list[AssetInventoryItem]
 
 
-# ----- Warranty Status Report -----
+# ── Warranty Status Report ─────────────────────────────────────
 class WarrantyItem(BaseModel):
     device_id: UUID
     device_name: str
@@ -54,7 +54,7 @@ class WarrantyReport(BaseModel):
     items: list[WarrantyItem]
 
 
-# ----- SLA Report -----
+# ── SLA Report ─────────────────────────────────────────────────
 
 
 class SLAByPriority(BaseModel):
@@ -84,7 +84,7 @@ class SLAReport(BaseModel):
     generated_at: datetime
 
 
-# ----- License Utilization Report -----
+# ── License Utilization Report ─────────────────────────────────
 
 
 class LicenseUtilizationItem(BaseModel):

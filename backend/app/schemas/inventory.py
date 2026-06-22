@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import Optional
 
 
-# ----- Inventory Schemas -----
+# ── Inventory Schemas ──────────────────────────────────────────
 class InventoryCreate(BaseModel):
     name:         str           = Field(..., min_length=2, max_length=200)
     category:     Optional[str] = Field(None, max_length=100)
@@ -41,7 +41,7 @@ class InventoryResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Spare Parts Schemas -----
+# ── Spare Parts Schemas ────────────────────────────────────────
 class SparePartCreate(BaseModel):
     name:            str           = Field(..., min_length=2, max_length=200)
     compatible_with: Optional[str] = None

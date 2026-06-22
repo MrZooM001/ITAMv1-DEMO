@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 from app.config import settings
 
 
-# ----- Backup Directory -----
+# ── Backup Directory ───────────────────────────────────────────
 BACKUP_DIR = Path("backups")
 BACKUP_DIR.mkdir(exist_ok=True)
 
@@ -93,7 +93,7 @@ def restore_backup(filename: str) -> dict:
     if not filepath.exists():
         raise FileNotFoundError(f"Backup file '{filename}' not found")
 
-    # ----- التحقق من اسم الملف عشان نمنع path traversal -----
+    # ── التحقق من اسم الملف عشان نمنع path traversal ──────────
     if not filename.startswith("backup_") or not filename.endswith(".sql"):
         raise ValueError("Invalid backup filename")
 

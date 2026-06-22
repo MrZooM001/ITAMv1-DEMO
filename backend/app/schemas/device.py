@@ -6,7 +6,7 @@ from typing import Optional, Any
 from app.models.device import DeviceStatus, FieldType
 
 
-# ----- Device Type -----
+# ── Device Type ────────────────────────────────────────────────
 class DeviceTypeCreate(BaseModel):
     name: str = Field(..., min_length=2, max_length=100)
 
@@ -20,7 +20,7 @@ class DeviceTypeResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Device Type Field -----
+# ── Device Type Field ──────────────────────────────────────────
 class DeviceTypeFieldCreate(BaseModel):
     field_key:   str       = Field(..., min_length=1, max_length=100, pattern=r'^[a-z][a-z0-9_]*$')
     label:       str       = Field(..., min_length=1, max_length=200)
@@ -48,7 +48,7 @@ class DeviceTypeFieldResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Device Model -----
+# ── Device Model ───────────────────────────────────────────────
 class DeviceModelCreate(BaseModel):
     device_type_id: UUID
     manufacturer:   Optional[str] = Field(None, max_length=200)
@@ -67,7 +67,7 @@ class DeviceModelResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Device Request -----
+# ── Device Request ─────────────────────────────────────────────
 class DeviceCreate(BaseModel):
     name:              str               = Field(..., min_length=2, max_length=200)
     device_type_id:    UUID
@@ -101,7 +101,7 @@ class AssignDepartmentRequest(BaseModel):
     department_id: UUID
 
 
-# ----- Shared sub-schemas -----
+# ── Shared sub-schemas ─────────────────────────────────────────
 class OSInfo(BaseModel):
     id: UUID
     name: str
@@ -125,7 +125,7 @@ class InstalledSoftwareSummary(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Device Basic Response -----
+# ── Device Basic Response ──────────────────────────────────────
 class DeviceResponse(BaseModel):
     id: UUID
     tenant_id: UUID
@@ -146,7 +146,7 @@ class DeviceResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Device List Response -----
+# ── Device List Response ───────────────────────────────────────
 class DeviceSummaryResponse(DeviceResponse):
     """For list endpoints — adds computed name fields and counts."""
     device_type_name:  Optional[str] = None
@@ -156,7 +156,7 @@ class DeviceSummaryResponse(DeviceResponse):
     warranty_status:   str           = "no_warranty"  # valid | expiring_soon | expired | no_warranty
 
 
-# ----- Device Detail Response -----
+# ── Device Detail Response ─────────────────────────────────────
 class DeviceDetailResponse(DeviceSummaryResponse):
     """For GET /{id} — adds hardware snapshot + software + open tickets."""
     hardware:           Optional[dict[str, Any]]       = None
@@ -164,7 +164,7 @@ class DeviceDetailResponse(DeviceSummaryResponse):
     open_ticket_list:   list[TicketSummary]            = []
 
 
-# ----- Bulk Delete -----
+# ── Bulk Delete ────────────────────────────────────────────────
 class BulkDeleteDevicesRequest(BaseModel):
     device_ids: list[UUID] = Field(..., min_length=1, max_length=100, description="List of device IDs to delete")
 

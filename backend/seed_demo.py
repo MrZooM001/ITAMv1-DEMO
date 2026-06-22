@@ -62,14 +62,14 @@ def get_or_create(db, model, defaults=None, **kwargs):
 def seed():
     db = SessionLocal()
     try:
-        # ----- Tenant -----
+        # ── Tenant ─────────────────────────────────────────────────
         tenant, created = get_or_create(
             db, Tenant, slug=TENANT_SLUG,
             defaults=dict(id=uuid.uuid4(), name=TENANT_NAME, is_active=True),
         )
         print(f"  {'✅ Tenant created' if created else '⏭  Tenant exists'}: {tenant.name}")
 
-        # ----- Demo Users (3 roles, so the demo shows permission tiers) ─
+        # ── Demo Users (3 roles, so the demo shows permission tiers) ─
         users = {}
         for email, name, password, role in [
             (DEMO_ADMIN_EMAIL, DEMO_ADMIN_NAME, DEMO_ADMIN_PASS, UserRole.admin),
@@ -93,7 +93,7 @@ def seed():
         admin_user = users[DEMO_ADMIN_EMAIL]
         tech_user = users[DEMO_TECH_EMAIL]
 
-        # ----- Departments -----
+        # ── Departments ───────────────────────────────────────────
         dept_names = ["IT", "Finance", "Human Resources", "Sales", "Operations"]
         departments = {}
         for name in dept_names:
@@ -104,7 +104,7 @@ def seed():
             departments[name] = dept
         print(f"  ✅ Departments ready: {len(departments)}")
 
-        # ----- Employees -----
+        # ── Employees ─────────────────────────────────────────────
         employee_data = [
             ("Sarah Johnson", "sarah.johnson@demo.com", "IT Manager", "IT"),
             ("Michael Chen", "michael.chen@demo.com", "Systems Administrator", "IT"),
@@ -133,7 +133,7 @@ def seed():
             employees[full_name] = emp
         print(f"  ✅ Employees ready: {len(employees)}")
 
-        # ----- Device Types & Models -----
+        # ── Device Types & Models ────────────────────────────────
         type_names = ["Laptop", "Desktop PC", "Server", "Printer", "Monitor"]
         device_types = {}
         for name in type_names:
@@ -165,7 +165,7 @@ def seed():
             device_models[model_name] = dm
         print(f"  ✅ Device types/models ready: {len(device_types)}/{len(device_models)}")
 
-        # ----- Operating Systems -----
+        # ── Operating Systems ────────────────────────────────────
         os_data = [
             ("Windows 11 Pro", "23H2", "x64"),
             ("Windows Server", "2022", "x64"),
@@ -181,7 +181,7 @@ def seed():
             operating_systems[name] = os_obj
         print(f"  ✅ Operating systems ready: {len(operating_systems)}")
 
-        # ----- Software catalog + licenses -----
+        # ── Software catalog + licenses ───────────────────────────
         software_data = [
             ("Microsoft 365", "Microsoft", "Productivity", True),
             ("Adobe Acrobat Pro", "Adobe", "Productivity", True),
@@ -226,7 +226,7 @@ def seed():
             )
         print(f"  ✅ Software catalog/licenses ready: {len(software_catalog)}/{len(license_data)}")
 
-        # ----- Devices (with hardware-less basic records) -----
+        # ── Devices (with hardware-less basic records) ───────────
         device_specs = [
             ("LAP-001", "Laptop", "Latitude 5440", "Sarah Johnson", "IT", DeviceStatus.active, 180, 1200.00),
             ("LAP-002", "Laptop", "ThinkPad T14", "Michael Chen", "IT", DeviceStatus.active, 365, 1100.00),
@@ -263,7 +263,7 @@ def seed():
             devices[name] = dev
         print(f"  ✅ Devices ready: {len(devices)}")
 
-        # ----- Attach OS to a few devices -----
+        # ── Attach OS to a few devices ────────────────────────────
         device_os_map = [
             ("LAP-001", "Windows 11 Pro"),
             ("LAP-002", "Windows 11 Pro"),
@@ -280,7 +280,7 @@ def seed():
                 defaults=dict(id=uuid.uuid4(), install_date=today - timedelta(days=200), is_primary=True),
             )
 
-        # ----- Attach software installs to a few devices -----
+        # ── Attach software installs to a few devices ─────────────
         device_software_map = [
             ("LAP-001", "Microsoft 365"),
             ("LAP-001", "Zoom"),
@@ -300,7 +300,7 @@ def seed():
             )
         print("  ✅ Device OS/software links ready")
 
-        # ----- Inventory & Spare Parts -----
+        # ── Inventory & Spare Parts ───────────────────────────────
         inventory_data = [
             ("USB-C Cable", "Accessories", 45, 10, "pcs"),
             ("Wireless Mouse", "Accessories", 22, 5, "pcs"),
@@ -327,7 +327,7 @@ def seed():
             )
         print(f"  ✅ Inventory/spare parts ready: {len(inventory_data)}/{len(spare_parts_data)}")
 
-        # ----- Tickets (with one update each, for realism) -----
+        # ── Tickets (with one update each, for realism) ───────────
         ticket_data = [
             ("TKT-DEMO-0001", "Laptop won't boot after Windows update", "LAP-004", "Emily Davis",
              TicketPriority.high, TicketStatus.in_progress, 5,

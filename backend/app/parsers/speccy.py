@@ -3,7 +3,7 @@ from datetime import datetime, date
 from typing import Optional
 from dataclasses import dataclass, field
 
-# ----- Virtual Adapter Keywords (will be execluded) -----
+# ── Virtual Adapter Keywords (يتم استبعادها) ──────────────────
 VIRTUAL_ADAPTER_KEYWORDS = [
     "vmware",
     "virtual",
@@ -18,7 +18,7 @@ VIRTUAL_ADAPTER_KEYWORDS = [
 ]
 
 
-# ----- Data Classes (Parser result) -----
+# ── Data Classes (نتيجة الـ Parser) ───────────────────────────
 @dataclass
 class RAMModuleData:
     slot: int
@@ -104,9 +104,9 @@ class SpeccyData:
     # GPU
     gpu_model: Optional[str] = None
     gpu_manufacturer: Optional[str] = None
-    gpu_memory_mb: Optional[int] = None  # Discrete GPU VRAM in MB (absent for integrated GPU)
+    gpu_memory_mb: Optional[int] = None  # Discrete GPU VRAM in MB (absent for iGPU)
 
-    # Monitors (Support multi-monitors)
+    # Monitors (بيدعم أكتر من شاشة)
     monitors: list[MonitorData] = field(default_factory=list)
 
     # Network - Ethernet
@@ -125,7 +125,7 @@ class SpeccyData:
     os_install_date: Optional[date] = None
 
 
-# ----- Helper Functions -----
+# ── Helper Functions ───────────────────────────────────────────
 def _get_section(root, *titles) -> Optional[etree._Element]:
     """بيدور على section بالعنوان في الـ XML"""
     current = root
@@ -187,7 +187,7 @@ def _parse_scan_date(value: Optional[str]) -> Optional[datetime]:
         return None
 
 
-# ----- Main Parser -----
+# ── Main Parser ────────────────────────────────────────────────
 def parse_speccy_xml(xml_content: bytes) -> SpeccyData:
     """
     بيستقبل محتوى ملف Speccy XML ويرجع SpeccyData object
@@ -202,34 +202,34 @@ def parse_speccy_xml(xml_content: bytes) -> SpeccyData:
 
     data = SpeccyData()
 
-    # ----- Scan Date -----
+    # ── Scan Date ──────────────────────────────────────────────
     data.scan_date = _parse_scan_date(root.get("time"))
 
-    # ----- OS -----
+    # ── OS ─────────────────────────────────────────────────────
     _parse_os(root, data)
 
-    # ----- CPU -----
+    # ── CPU ────────────────────────────────────────────────────
     _parse_cpu(root, data)
 
-    # ----- Motherboard -----
+    # ── Motherboard ────────────────────────────────────────────
     _parse_motherboard(root, data)
 
-    # ----- RAM -----
+    # ── RAM ────────────────────────────────────────────────────
     _parse_ram(root, data)
 
-    # ----- Storage -----
+    # ── Storage ────────────────────────────────────────────────
     _parse_storage(root, data)
 
-    # ----- GPU & Monitor -----
+    # ── GPU & Monitor ──────────────────────────────────────────
     _parse_graphics(root, data)
 
-    # ----- Network -----
+    # ── Network ────────────────────────────────────────────────
     _parse_network(root, data)
 
     return data
 
 
-# ----- Section Parsers -----
+# ── Section Parsers ────────────────────────────────────────────
 def _parse_os(root, data: SpeccyData):
     os_section = None
     for section in root:
@@ -580,7 +580,7 @@ def _parse_graphics(root, data: SpeccyData):
 
         title = child.get("title", "")
 
-        # ----- Monitor Sections -----
+        # ── Monitor Sections ───────────────────────────────────
         if title.startswith("Monitor"):
             monitor = MonitorData()
 
@@ -610,7 +610,7 @@ def _parse_graphics(root, data: SpeccyData):
 
             data.monitors.append(monitor)
 
-        # ----- GPU Sections -----
+        # ── GPU Sections ───────────────────────────────────────
         else:
             # أول GPU بس اللي هناخده (لو فيه أكتر من GPU)
             if not data.gpu_model:
@@ -625,7 +625,7 @@ def _parse_graphics(root, data: SpeccyData):
                     except ValueError:
                         pass
 
-    # ----- Monitor Manufacturer من Device Tree -----
+    # ── Monitor Manufacturer من Device Tree ────────────────────
     _parse_monitor_manufacturer_from_device_tree(root, data)
 
 

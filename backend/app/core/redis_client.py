@@ -4,26 +4,40 @@ from app.config import settings
 
 logger = logging.getLogger("itam.redis")
 
-# ----- Connection state -----
+# ── Connection state ────────────────────────────────────────────
 _client: redis.Redis | None = None
 _available: bool | None = None  # None=untested, True=ok, False=failed
 
 
 def get_redis() -> redis.Redis | None:
-    """Return Redis client أو None if not available."""
+    """بيرجع Redis client أو None لو مش متاح."""
     global _client, _available
 
+    # لو REDIS_URL فاضي أو مش متظبط — متحاولش تتصل أصلاً
+    if not settings.REDIS_URL:
+        if _available is not False:
+            _available = False
+            logger.info("REDIS_URL not set — token blacklisting disabled")
+        return None
+
+    # لو اتاختبر قبل كده وفشل — مترجعش تحاول
     if _available is False:
         return None
 
     if _client is None:
-        _client = redis.from_url(
-            settings.REDIS_URL,
-            decode_responses=True,
-            socket_connect_timeout=1,
-            socket_timeout=1,
-        )
+        try:
+            _client = redis.from_url(
+                settings.REDIS_URL,
+                decode_responses=True,
+                socket_connect_timeout=1,  # 1 ثانية بس للـ connect
+                socket_timeout=1,
+            )
+        except Exception as e:
+            _available = False
+            logger.warning("Invalid REDIS_URL — token blacklisting disabled: %s", e)
+            return None
 
+    # اختبر الـ connection لأول مرة
     if _available is None:
         try:
             _client.ping()
@@ -38,7 +52,8 @@ def get_redis() -> redis.Redis | None:
     return _client
 
 
-# ----- Blacklist helpers -----
+# ── Blacklist helpers ───────────────────────────────────────────
+
 BLACKLIST_PREFIX = "blacklist:"
 
 
@@ -57,7 +72,7 @@ def blacklist_token(token: str, ttl_seconds: int) -> None:
 def is_blacklisted(token: str) -> bool:
     r = get_redis()
     if r is None:
-        return False
+        return False  # Redis مش متاح — نسمح بالـ token
     try:
         return r.exists(f"{BLACKLIST_PREFIX}{token}") == 1
     except Exception:

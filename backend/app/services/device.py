@@ -23,7 +23,7 @@ from app.schemas.device import (
 )
 
 
-# ----- Internal helpers -----
+# ── Internal helpers ───────────────────────────────────────────
 
 def _get_device_type_or_404(type_id: UUID, tenant_id: UUID, db: Session) -> DeviceType:
     dt = db.query(DeviceType).filter(
@@ -188,7 +188,7 @@ def _build_detail(device: Device, db: Session) -> DeviceDetailResponse:
     )
 
 
-# ----- Device Types -----
+# ── Device Types ───────────────────────────────────────────────
 
 def create_device_type(request: DeviceTypeCreate, tenant_id: UUID, db: Session) -> DeviceType:
     existing = db.query(DeviceType).filter(
@@ -231,7 +231,7 @@ def delete_device_type(type_id: UUID, tenant_id: UUID, db: Session) -> None:
     db.commit()
 
 
-# ----- Device Models -----
+# ── Device Models ──────────────────────────────────────────────
 
 def create_device_model(request: DeviceModelCreate, tenant_id: UUID, db: Session) -> DeviceModel:
     _get_device_type_or_404(request.device_type_id, tenant_id, db)
@@ -279,7 +279,7 @@ def delete_device_model(model_id: UUID, tenant_id: UUID, db: Session) -> None:
     db.commit()
 
 
-# ----- Device Type Fields -----
+# ── Device Type Fields ─────────────────────────────────────────
 
 def get_type_fields(type_id: UUID, tenant_id: UUID, db: Session) -> list[DeviceTypeField]:
     _get_device_type_or_404(type_id, tenant_id, db)
@@ -352,7 +352,7 @@ def delete_type_field(type_id: UUID, field_id: UUID, tenant_id: UUID, db: Sessio
     db.commit()
 
 
-# ----- Devices -----
+# ── Devices ────────────────────────────────────────────────────
 
 def create_device(request: DeviceCreate, tenant_id: UUID, db: Session) -> DeviceResponse:
     _get_device_type_or_404(request.device_type_id, tenant_id, db)

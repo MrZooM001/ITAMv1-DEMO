@@ -6,7 +6,7 @@ echo "========================================"
 echo "  ITAM System — Starting Up"
 echo "========================================"
 
-# ----- 1. Wait for Database -----
+# ── 1. Wait for Database ──────────────────────────────────────
 echo "[1/4] Waiting for database..."
 
 python << 'PYEOF'
@@ -33,31 +33,34 @@ else:
     exit(1)
 PYEOF
 
-# ----- 2. Wait for Redis -----
-echo "[2/4] Waiting for Redis..."
+# ── 2. Wait for Redis (optional) ────────────────────────────────
+echo "[2/4] Checking Redis..."
 
 python << 'PYEOF'
 import time
 import os
 import redis
 
-redis_url = os.environ.get("REDIS_URL", "redis://redis:6379/0")
-max_retries = 15
+redis_url = os.environ.get("REDIS_URL", "").strip()
 
-for i in range(max_retries):
-    try:
-        r = redis.from_url(redis_url, socket_connect_timeout=2)
-        r.ping()
-        print(f"  ✅ Redis ready!")
-        break
-    except Exception as e:
-        print(f"  ⏳ Attempt {i+1}/{max_retries}: {e}")
-        time.sleep(2)
+if not redis_url:
+    print("  ℹ️  REDIS_URL not set — skipping, token blacklisting disabled")
 else:
-    print("  ⚠️  Redis not available — continuing without blacklisting")
+    max_retries = 15
+    for i in range(max_retries):
+        try:
+            r = redis.from_url(redis_url, socket_connect_timeout=2)
+            r.ping()
+            print(f"  ✅ Redis ready!")
+            break
+        except Exception as e:
+            print(f"  ⏳ Attempt {i+1}/{max_retries}: {e}")
+            time.sleep(2)
+    else:
+        print("  ⚠️  Redis not available — continuing without blacklisting")
 PYEOF
 
-# ----- 3. Create Tables -----
+# ── 3. Create Tables ─────────────────────────────────────────
 echo "[3/4] Creating database tables..."
 
 python << 'PYEOF'
@@ -71,7 +74,7 @@ Base.metadata.create_all(bind=engine)
 print("  ✅ Tables created (or already exist)")
 PYEOF
 
-# ----- 4. Seed inital data -----
+# ── 4. Seed inital data ───────────────────────────────────
 echo "[4/4] Seeding initial data..."
 
 python /app/seed.py
@@ -84,7 +87,7 @@ if [ "${SEED_DEMO_DATA}" = "true" ]; then
     python /app/seed_demo.py
 fi
 
-# ----- 5. Starting API Server -----
+# ── 5. Starting API Server ────────────────────────────────────────
 echo ""
 echo "========================================"
 echo "  Starting uvicorn on port 8000..."

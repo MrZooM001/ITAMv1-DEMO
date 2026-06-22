@@ -5,7 +5,7 @@ from typing import Optional
 from app.models.user import UserRole
 
 
-# ----- Auth Schemas -----
+# ── Auth Schemas ───────────────────────────────────────────────
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=6)
@@ -31,7 +31,7 @@ class AdminChangePasswordRequest(BaseModel):
     new_password: str = Field(..., min_length=6)
 
 
-# ----- Request Schemas -----
+# ── Request Schemas ────────────────────────────────────────────
 class UserCreate(BaseModel):
     full_name: str = Field(..., min_length=2, max_length=200)
     email: EmailStr
@@ -59,7 +59,7 @@ class UserStatusUpdate(BaseModel):
     is_active: bool
 
 
-# ----- Response Schemas -----
+# ── Response Schemas ───────────────────────────────────────────
 class UserResponse(BaseModel):
     id: UUID
     tenant_id: UUID
@@ -81,7 +81,7 @@ class UserResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Activity & Stats -----
+# ── Activity & Stats ───────────────────────────────────────────
 class TicketActivityItem(BaseModel):
     ticket_id: UUID
     ticket_number: str

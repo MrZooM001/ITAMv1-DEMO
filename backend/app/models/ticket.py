@@ -54,7 +54,7 @@ class Ticket(Base):
         Index("ix_tickets_assigned_to", "assigned_to"),
     )
 
-    # ----- Relationships -----
+    # ── Relationships ──────────────────────────────────────────
     device = relationship("Device", back_populates="tickets")
     employee = relationship(
         "Employee", back_populates="tickets", foreign_keys=[reported_by]
@@ -75,7 +75,7 @@ class TicketUpdate(Base):
     new_status = Column(String(50), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    # ----- Relationships -----
+    # ── Relationships ──────────────────────────────────────────
     ticket = relationship("Ticket", back_populates="updates")
 
 
@@ -97,6 +97,6 @@ class SparePartUsage(Base):
         Index("ix_spare_parts_usage_tenant_id", "tenant_id"),
     )
 
-    # ----- Relationships -----
+    # ── Relationships ──────────────────────────────────────────
     ticket = relationship("Ticket", back_populates="spare_parts")
     spare_part = relationship("SparePart", back_populates="usage")

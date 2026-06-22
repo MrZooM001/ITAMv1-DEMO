@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import Optional
 
 
-# ----- Request Schemas -----
+# ── Request Schemas ────────────────────────────────────────────
 class EmployeeCreate(BaseModel):
     full_name:     str               = Field(..., min_length=2, max_length=200)
     email:         Optional[EmailStr]= None
@@ -22,7 +22,7 @@ class EmployeeUpdate(BaseModel):
     is_active:     Optional[bool]     = None
 
 
-# ----- Basic Response -----
+# ── Basic Response ─────────────────────────────────────────────
 class EmployeeResponse(BaseModel):
     id:            UUID
     tenant_id:     UUID
@@ -37,7 +37,7 @@ class EmployeeResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- List Response -----
+# ── List Response ──────────────────────────────────────────────
 class EmployeeSummaryResponse(EmployeeResponse):
     """For list endpoints — adds department name and counts."""
     department_name: Optional[str] = None
@@ -45,7 +45,7 @@ class EmployeeSummaryResponse(EmployeeResponse):
     open_tickets:    int           = 0
 
 
-# ----- Detail Response -----
+# ── Detail Response ────────────────────────────────────────────
 class AssignedDeviceInfo(BaseModel):
     id:     UUID
     name:   str

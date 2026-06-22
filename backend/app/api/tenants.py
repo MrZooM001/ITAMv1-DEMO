@@ -20,10 +20,12 @@ from app.services import user as user_service
 
 router = APIRouter(prefix="/tenants", tags=["Tenants"])
 
-# ----- All routes in this file require platform super-admin -----
+# ── All routes in this file require platform super-admin ───────
+#    i.e. role=super_admin AND belongs to the "itam" tenant.
+#    A customer-tenant admin CANNOT reach any of these endpoints.
 
 
-# ----- Tenant CRUD -----
+# ── Tenant CRUD ────────────────────────────────────────────────
 @router.post("/", response_model=TenantResponse, status_code=201)
 def create_tenant(
     request: TenantCreate,
@@ -83,7 +85,7 @@ def delete_tenant(
     return {"message": "Tenant deleted successfully"}
 
 
-# ----- Tenant User Management -----
+# ── Tenant User Management ─────────────────────────────────────
 # Platform super-admin can provision users inside any customer tenant
 # without logging in as that tenant. This is the "on-boarding" flow:
 # create tenant → create its first admin user → hand credentials to client.

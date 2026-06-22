@@ -19,7 +19,7 @@ ADMIN_PASS = settings.SEED_ADMIN_PASS
 def seed():
     db = SessionLocal()
     try:
-        # ----- Tenant -----
+        # ── Tenant ─────────────────────────────────────────────
         tenant = db.query(Tenant).filter(Tenant.slug == TENANT_SLUG).first()
         if not tenant:
             tenant = Tenant(
@@ -34,7 +34,7 @@ def seed():
         else:
             print(f"  ⏭  Tenant exists: {tenant.name}")
 
-        # ----- Super Admin -----
+        # ── Super Admin ─────────────────────────────────────────
         user = db.query(User).filter(User.email == ADMIN_EMAIL).first()
         if not user:
             user = User(

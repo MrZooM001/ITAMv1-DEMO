@@ -15,7 +15,7 @@ from app.schemas.inventory import (
 )
 
 
-# ----- Helper -----
+# ── Helper ─────────────────────────────────────────────────────
 def _to_inventory_response(item: Inventory) -> InventoryResponse:
     return InventoryResponse(
         id=item.id,
@@ -45,7 +45,7 @@ def _to_spare_part_response(item: SparePart) -> SparePartResponse:
     )
 
 
-# ----- Inventory -----
+# ── Inventory ──────────────────────────────────────────────────
 def create_inventory(
     request: InventoryCreate, tenant_id: UUID, db: Session
 ) -> InventoryResponse:
@@ -168,7 +168,7 @@ def get_low_stock_inventory(tenant_id: UUID, db: Session) -> list[InventoryRespo
     return [_to_inventory_response(i) for i in items]
 
 
-# ----- Spare Parts -----
+# ── Spare Parts ────────────────────────────────────────────────
 def create_spare_part(
     request: SparePartCreate, tenant_id: UUID, db: Session
 ) -> SparePartResponse:

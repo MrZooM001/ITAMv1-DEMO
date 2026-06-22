@@ -20,7 +20,7 @@ from app.schemas.user import (
 from app.core.security import hash_password
 
 
-# ----- Response serialization -----
+# ── Response serialization ──────────────────────────────────────
 def to_response(user: User, db: Session) -> UserResponse:
     """
     The ONLY place a User ORM object becomes a UserResponse.
@@ -47,7 +47,7 @@ def to_response_list(users: list[User], db: Session) -> list[UserResponse]:
     return [to_response(u, db) for u in users]
 
 
-# ----- Super-admin protection -----
+# ── Super-admin protection ─────────────────────────────────────
 def _is_platform_super_admin(actor: User, db: Session) -> bool:
     """
     True only if actor is super_admin AND actor's own tenant_id matches
@@ -86,7 +86,7 @@ def _guard_no_self_delete(target: User, actor: User) -> None:
         )
 
 
-# ----- CRUD -----
+# ── CRUD ───────────────────────────────────────────────────────
 def create_user(request: UserCreate, tenant_id: UUID, db: Session) -> User:
     existing = db.query(User).filter(User.email == request.email).first()
     if existing:
@@ -212,7 +212,7 @@ def delete_user(
     db.commit()
 
 
-# ----- My Profile -----
+# ── My Profile ─────────────────────────────────────────────────
 def update_my_profile(request: UpdateMyProfile, current_user: User, db: Session) -> User:
     if request.email and request.email != current_user.email:
         taken = db.query(User).filter(
@@ -234,7 +234,7 @@ def update_my_profile(request: UpdateMyProfile, current_user: User, db: Session)
     return current_user
 
 
-# ----- Password -----
+# ── Password ───────────────────────────────────────────────────
 def admin_change_password(
     user_id: UUID, new_password: str, tenant_id: UUID, db: Session,
     actor: User | None = None,
@@ -253,7 +253,7 @@ def admin_change_password(
     db.commit()
 
 
-# ----- Activity -----
+# ── Activity ───────────────────────────────────────────────────
 def get_user_activity(
     user_id: UUID, tenant_id: UUID, limit: int, offset: int, db: Session,
 ) -> UserActivityResponse:
@@ -310,7 +310,7 @@ def get_user_activity(
     )
 
 
-# ----- Stats -----
+# ── Stats ──────────────────────────────────────────────────────
 def get_user_stats(user_id: UUID, tenant_id: UUID, db: Session) -> UserStatsResponse:
     user = get_user(user_id, tenant_id, db)
 

@@ -17,7 +17,7 @@ from app.services import user as user_service
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
-# ----- My Profile -----
+# ── My Profile ─────────────────────────────────────────────────
 @router.put("/me", response_model=UserResponse)
 def update_my_profile(
     request:      UpdateMyProfile,
@@ -29,7 +29,7 @@ def update_my_profile(
     return user_service.to_response(user, db)
 
 
-# ----- Stats & Activity (self or admin) -----
+# ── Stats & Activity (self or admin) ───────────────────────────
 @router.get("/{user_id}/stats", response_model=UserStatsResponse)
 def get_user_stats(
     user_id:      UUID,
@@ -62,7 +62,7 @@ def get_user_activity(
     )
 
 
-# ----- User CRUD (Admin only) -----
+# ── User CRUD (Admin only) ─────────────────────────────────────
 @router.post("/", response_model=UserResponse)
 def create_user(
     request:      UserCreate,

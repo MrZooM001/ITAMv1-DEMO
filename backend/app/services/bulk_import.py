@@ -12,7 +12,7 @@ from app.parsers.speccy import parse_speccy_xml
 from app.services.device_hardware import _speccy_to_dict, _import_os
 
 
-# ----- DTOs -----
+# ── DTOs ───────────────────────────────────────────────────────
 
 @dataclass
 class FileEntry:
@@ -38,7 +38,7 @@ class BulkImportSummary:
     results: list[DeviceImportResult] = field(default_factory=list)
 
 
-# ----- Helpers -----
+# ── Helpers ────────────────────────────────────────────────────
 
 def _get_or_create_pc_type(tenant_id: UUID, db: Session) -> DeviceType:
     dt = db.query(DeviceType).filter(
@@ -72,7 +72,7 @@ def _parse_device_name(filename: str) -> Optional[str]:
     return path.stem.strip() or None
 
 
-# ----- Core: Process One XML -----
+# ── Core: Process One XML ──────────────────────────────────────
 
 def _process_one(
     xml_content:   bytes,
@@ -91,7 +91,7 @@ def _process_one(
         existing = _find_by_mac(speccy.eth_mac, tenant_id, db)
 
     if existing:
-        # ----- UPDATE -----
+        # ── UPDATE ────────────────────────────────────────────
         if existing.department_id != department_id:
             existing.department_id = department_id
 
@@ -109,7 +109,7 @@ def _process_one(
         return "updated", str(existing.id)
 
     else:
-        # ----- CREATE -----
+        # ── CREATE ────────────────────────────────────────────
         device = Device(
             tenant_id      = tenant_id,
             name           = device_name,
@@ -129,7 +129,7 @@ def _process_one(
         return "created", str(device.id)
 
 
-# ----- Main Entry -----
+# ── Main Entry ─────────────────────────────────────────────────
 
 def bulk_import_from_files(
     files:         list[FileEntry],

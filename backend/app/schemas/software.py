@@ -1,10 +1,12 @@
+# /backend/app/schemas/software.py
+
 from pydantic import BaseModel, Field
 from uuid import UUID
 from datetime import datetime, date
 from decimal import Decimal
 from typing import Optional
 
-# ----- Software -----
+# ── Software ───────────────────────────────────────────────────
 
 
 class SoftwareCreate(BaseModel):
@@ -36,7 +38,7 @@ class SoftwareResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Software License -----
+# ── Software License ───────────────────────────────────────────
 
 
 class SoftwareLicenseCreate(BaseModel):
@@ -74,7 +76,7 @@ class SoftwareLicenseResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Device Software -----
+# ── Device Software ────────────────────────────────────────────
 
 
 class DeviceSoftwareCreate(BaseModel):

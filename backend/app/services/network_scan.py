@@ -15,7 +15,7 @@ from app.schemas.network_scan import BulkImportResponse, ImportResult, ScanReque
 log = logging.getLogger(__name__)
 
 
-# ----- helpers -----
+# ── helpers ────────────────────────────────────────────────────
 def _now() -> datetime:
     return datetime.now(timezone.utc)
 
@@ -30,7 +30,7 @@ def _get_scan(scan_id: UUID, tenant_id: UUID, db: Session) -> NetworkScan:
     return scan
 
 
-# ----- Create & trigger -----
+# ── Create & trigger ───────────────────────────────────────────
 def create_scan(
     request:    ScanRequest,
     tenant_id:  UUID,
@@ -126,7 +126,7 @@ def run_scan_task(
         db.commit()
 
 
-# ----- Read -----
+# ── Read ───────────────────────────────────────────────────────
 def get_scans(
     tenant_id: UUID,
     db:        Session,
@@ -145,7 +145,7 @@ def get_scan_detail(scan_id: UUID, tenant_id: UUID, db: Session) -> NetworkScan:
     return _get_scan(scan_id, tenant_id, db)
 
 
-# ----- Import discovered host(s) into asset DB -----
+# ── Import discovered host(s) into asset DB ────────────────────
 def import_host(
     host_id:        UUID,
     name:           str,

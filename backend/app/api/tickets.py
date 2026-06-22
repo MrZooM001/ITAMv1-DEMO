@@ -118,7 +118,7 @@ def delete_ticket(
     ticket_service.delete_ticket(ticket_id, current_user.tenant_id, current_user, db)
 
 
-# ----- Spare Parts Usage -----
+# ── Spare Parts Usage ──────────────────────────────────────────
 @router.post("/{ticket_id}/spare-parts", response_model=SparePartUsageResponse)
 def add_spare_part(
     ticket_id:    UUID,

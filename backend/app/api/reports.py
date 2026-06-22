@@ -21,7 +21,7 @@ from app.services import report as report_service
 router = APIRouter(prefix="/reports", tags=["Reports"])
 
 
-# ----- Assets Inventory -----
+# ── Assets Inventory ───────────────────────────────────────────
 
 
 @router.get("/assets-inventory", response_model=AssetInventoryReport)
@@ -42,7 +42,7 @@ def assets_inventory(
     return report
 
 
-# ----- Warranty Status -----
+# ── Warranty Status ────────────────────────────────────────────
 
 
 @router.get("/warranty-status", response_model=WarrantyReport)
@@ -62,7 +62,7 @@ def warranty_status(
     return report
 
 
-# ----- SLA Report -----
+# ── SLA Report ─────────────────────────────────────────────────
 
 
 @router.get("/sla", response_model=SLAReport)
@@ -79,7 +79,7 @@ def sla_report(
     return report
 
 
-# ----- License Utilization -----
+# ── License Utilization ────────────────────────────────────────
 
 
 @router.get("/license-utilization", response_model=LicenseUtilizationReport)
@@ -96,7 +96,7 @@ def license_utilization(
     return report
 
 
-# ----- PDF Helpers -----
+# ── PDF Helpers ────────────────────────────────────────────────
 
 
 def _pdf_response(pdf_bytes: bytes, filename: str) -> StreamingResponse:
@@ -254,7 +254,7 @@ def _license_pdf(report: LicenseUtilizationReport) -> StreamingResponse:
     return _pdf_response(pdf, "license_utilization.pdf")
 
 
-# ----- CSV Helpers -----
+# ── CSV Helpers ────────────────────────────────────────────────
 
 
 def _csv_response(rows: list, headers: list, filename: str) -> StreamingResponse:

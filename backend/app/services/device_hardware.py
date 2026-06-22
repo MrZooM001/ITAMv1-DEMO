@@ -118,7 +118,7 @@ def _speccy_to_dict(data: SpeccyData) -> dict:
 def import_from_speccy(
     device_id: UUID, tenant_id: UUID, xml_content: bytes, db: Session
 ) -> DeviceHardware:
-    # ----- تحقق إن الجهاز موجود -----
+    # ── تحقق إن الجهاز موجود ──────────────────────────────────
     device = (
         db.query(Device)
         .filter(
@@ -134,7 +134,7 @@ def import_from_speccy(
             detail="Device not found",
         )
 
-    # ----- Parse الـ XML -----
+    # ── Parse الـ XML ──────────────────────────────────────────
     try:
         speccy_data = parse_speccy_xml(xml_content)
     except ValueError as e:
@@ -145,7 +145,7 @@ def import_from_speccy(
 
     hardware_dict = _speccy_to_dict(speccy_data)
 
-    # ----- تحقق من الـ eth_mac عشان نمنع الـ duplication -----
+    # ── تحقق من الـ eth_mac عشان نمنع الـ duplication ─────────
     # Scoped to this tenant only — a MAC collision in another tenant's
     # data is irrelevant and must never be surfaced or block this import.
     if speccy_data.eth_mac:
@@ -165,7 +165,7 @@ def import_from_speccy(
                 detail=f"Hardware with MAC {speccy_data.eth_mac} already linked to another device",
             )
 
-    # ----- UPDATE لو موجود، INSERT لو مش موجود -----─
+    # ── UPDATE لو موجود، INSERT لو مش موجود ───────────────────
     existing = (
         db.query(DeviceHardware)
         .filter(
@@ -191,7 +191,7 @@ def import_from_speccy(
         db.refresh(hardware)
         result = hardware
 
-    # ----- استيراد الـ OS -----
+    # ── استيراد الـ OS ─────────────────────────────────────────
     if speccy_data.os_name:
         _import_os(device_id, tenant_id, speccy_data, db)
 
@@ -201,7 +201,7 @@ def import_from_speccy(
 def _import_os(device_id: UUID, tenant_id: UUID, speccy_data: SpeccyData, db: Session):
     """بيضيف أو يحدث الـ OS المرتبط بالجهاز"""
 
-    # ----- بيدور على الـ OS في الـ catalog أو بيعمل واحد جديد ────
+    # ── بيدور على الـ OS في الـ catalog أو بيعمل واحد جديد ────
     os = (
         db.query(OperatingSystem)
         .filter(
@@ -221,7 +221,7 @@ def _import_os(device_id: UUID, tenant_id: UUID, speccy_data: SpeccyData, db: Se
         db.add(os)
         db.flush()
 
-    # ----- ربط الـ OS بالجهاز -----
+    # ── ربط الـ OS بالجهاز ─────────────────────────────────────
     device_os = (
         db.query(DeviceOS)
         .filter(
@@ -247,7 +247,7 @@ def _import_os(device_id: UUID, tenant_id: UUID, speccy_data: SpeccyData, db: Se
 
 
 def get_hardware(device_id: UUID, tenant_id: UUID, db: Session) -> DeviceHardware:
-    # ----- تحقق إن الجهاز موجود -----
+    # ── تحقق إن الجهاز موجود ──────────────────────────────────
     device = (
         db.query(Device)
         .filter(

@@ -36,7 +36,7 @@ from typing import Optional
 
 log = logging.getLogger(__name__)
 
-# ----- OUI prefix → manufacturer -----
+# ── OUI prefix → manufacturer ───────────────────────────────────
 _OUI: dict[str, str] = {
     "00:00:0C": "Cisco",           "00:1A:A1": "Cisco",
     "00:1C:58": "Cisco",           "F8:72:EA": "Cisco",
@@ -90,7 +90,7 @@ def _reverse_dns(ip: str) -> Optional[str]:
         return None
 
 
-# ----- Port → device type hints -----
+# ── Port → device type hints ────────────────────────────────────
 _PORT_HINTS: dict[int, str] = {
     9100: "printer",       # JetDirect
     631:  "printer",       # IPP / CUPS
@@ -135,7 +135,7 @@ def _classify(open_ports: list[int], manufacturer: Optional[str], os_guess: Opti
     return "unknown"
 
 
-# ----- Interface detection -----
+# ── Interface detection ─────────────────────────────────────────
 def list_interfaces() -> list[dict]:
     """
     Return all network interfaces that have a real IPv4 address assigned.
@@ -205,7 +205,7 @@ def _iface_matches_subnet(iface: dict, subnet: str) -> bool:
         return False
 
 
-# ----- ARP sweep — with explicit interface (Wi-Fi fix) -----
+# ── ARP sweep — with explicit interface (Wi-Fi fix) ────────────
 def _arp_sweep_on_iface(subnet: str, iface_name: str) -> list[dict]:
     """
     ARP sweep bound to a specific network interface.
@@ -292,7 +292,7 @@ def _ping_sweep(subnet: str) -> list[dict]:
     return live
 
 
-# ----- Port scan (nmap with socket fallback) -----─
+# ── Port scan (nmap with socket fallback) ──────────────────────
 _PROBE_PORTS = (
     "22,23,80,135,139,161,443,445,515,548,554,"
     "631,1883,2049,3389,5060,5985,8080,8443,8554,9100"
@@ -337,7 +337,7 @@ def _socket_probe(ip: str) -> dict:
     return {"open_ports": sorted(open_ports), "os_guess": None}
 
 
-# ----- Main entry point -----
+# ── Main entry point ────────────────────────────────────────────
 def run_scan(subnet: str, preferred_iface: Optional[str] = None) -> list[dict]:
     """
     Full LAN discovery scan.

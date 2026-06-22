@@ -174,7 +174,7 @@ def get_sla_report(tenant_id: UUID, db: Session) -> SLAReport:
             return round(delta.total_seconds() / 3600, 2)
         return None
 
-    # ----- By Priority -----
+    # ── By Priority ────────────────────────────────────────────
     by_priority = []
     for priority in TicketPriority:
         p_tickets = [t for t in tickets if t.priority == priority]
@@ -198,7 +198,7 @@ def get_sla_report(tenant_id: UUID, db: Session) -> SLAReport:
             )
         )
 
-    # ----- By Technician -----
+    # ── By Technician ──────────────────────────────────────────
     tech_ids = {t.assigned_to for t in tickets if t.assigned_to}
     users = (
         {u.id: u for u in db.query(User).filter(User.id.in_(tech_ids)).all()}

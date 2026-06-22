@@ -22,7 +22,7 @@ from app.services import inventory as inventory_service
 router = APIRouter(tags=["Inventory"])
 
 
-# ----- Inventory -----
+# ── Inventory ──────────────────────────────────────────────────
 @router.post("/inventory/", response_model=InventoryResponse)
 def create_inventory(
     request: InventoryCreate,
@@ -106,7 +106,7 @@ def delete_inventory(
     return {"message": "Item deleted successfully"}
 
 
-# ----- Spare Parts -----
+# ── Spare Parts ────────────────────────────────────────────────
 @router.post("/spare-parts/", response_model=SparePartResponse)
 def create_spare_part(
     request: SparePartCreate,

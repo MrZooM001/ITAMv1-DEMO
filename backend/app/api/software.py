@@ -1,3 +1,5 @@
+# /backend/app/api/software.py
+
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from uuid import UUID
@@ -23,7 +25,7 @@ from app.services import software as software_service
 router = APIRouter(tags=["Software & Licenses"])
 
 
-# ----- Software -----
+# ── Software ───────────────────────────────────────────────────
 
 
 @router.post("/software/", response_model=SoftwareResponse)
@@ -87,7 +89,7 @@ def delete_software(
     return {"message": "Software deleted successfully"}
 
 
-# ----- Licenses -----
+# ── Licenses ───────────────────────────────────────────────────
 
 
 @router.get("/software/licenses/expiring", response_model=list[SoftwareLicenseResponse])
@@ -145,7 +147,7 @@ def delete_license(
     return {"message": "License deleted successfully"}
 
 
-# ----- Device Software -----
+# ── Device Software ────────────────────────────────────────────
 
 
 @router.post("/devices/{device_id}/software", response_model=DeviceSoftwareResponse)

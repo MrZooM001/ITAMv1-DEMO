@@ -24,7 +24,7 @@ class Department(Base):
         Index("ix_departments_tenant_name", "tenant_id", "name", unique=True),
     )
 
-    # ----- Relationships -----
+    # ── Relationships ──────────────────────────────────────────
     tenant = relationship("Tenant", back_populates="departments")
     employees = relationship("Employee", back_populates="department")
     devices = relationship("Device", back_populates="department")

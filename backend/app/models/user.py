@@ -39,7 +39,7 @@ class User(Base):
         Index("ix_users_email", "email", unique=True),
     )
 
-    # ----- Relationships -----
+    # ── Relationships ──────────────────────────────────────────
     tenant = relationship("Tenant", back_populates="users")
     refresh_tokens = relationship("RefreshToken", back_populates="user")
 
@@ -60,5 +60,5 @@ class RefreshToken(Base):
         ),  # لتنظيف الـ expired tokens
     )
 
-    # ----- Relationships -----
+    # ── Relationships ──────────────────────────────────────────
     user = relationship("User", back_populates="refresh_tokens")

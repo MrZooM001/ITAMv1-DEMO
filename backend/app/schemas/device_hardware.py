@@ -5,7 +5,7 @@ from decimal import Decimal
 from typing import Optional, Any
 
 
-# ----- RAM Module Schema -----
+# ── RAM Module Schema ──────────────────────────────────────────
 class RAMModule(BaseModel):
     slot: int
     type: Optional[str] = None  # DDR4
@@ -16,7 +16,7 @@ class RAMModule(BaseModel):
     speed_mhz: Optional[int] = None  # 2666
 
 
-# ----- Partition Schema -----
+# ── Partition Schema ───────────────────────────────────────────
 class PartitionData(BaseModel):
     partition_id: Optional[str] = None  # "Disk #0, Partition #0"
     disk_letter: Optional[str] = None  # "C:"
@@ -26,7 +26,7 @@ class PartitionData(BaseModel):
     free_mb: Optional[int] = None
 
 
-# ----- Storage Disk Schema -----
+# ── Storage Disk Schema ────────────────────────────────────────
 class StorageDisk(BaseModel):
     model: Optional[str] = None
     manufacturer: Optional[str] = None
@@ -38,7 +38,7 @@ class StorageDisk(BaseModel):
     partitions: list[PartitionData] = []
 
 
-# ----- Network Connection Schema -----
+# ── Network Connection Schema ──────────────────────────────────
 class NetworkConnection(BaseModel):
     ip: Optional[str] = None  # 192.168.1.65
     subnet: Optional[str] = None  # 255.255.255.0
@@ -46,7 +46,7 @@ class NetworkConnection(BaseModel):
     dhcp: bool = False
 
 
-# ----- Request Schemas -----
+# ── Request Schemas ────────────────────────────────────────────
 class DeviceHardwareUpdate(BaseModel):
     """للتعديل اليدوي على بيانات الهاردوير"""
 
@@ -85,7 +85,7 @@ class DeviceHardwareUpdate(BaseModel):
     wifi_mac: Optional[str] = None
 
 
-# ----- Response Schema -----
+# ── Response Schema ────────────────────────────────────────────
 class DeviceHardwareResponse(BaseModel):
     id: UUID
     tenant_id: UUID

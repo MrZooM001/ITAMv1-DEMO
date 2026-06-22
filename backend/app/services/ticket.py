@@ -19,7 +19,7 @@ from app.schemas.ticket import (
 )
 
 
-# ----- Ticket Number Generator -----
+# ── Ticket Number Generator ────────────────────────────────────
 
 def _generate_ticket_number(db: Session, tenant_id: UUID) -> str:
     from sqlalchemy import func, text
@@ -50,7 +50,7 @@ def _generate_ticket_number(db: Session, tenant_id: UUID) -> str:
     return f"{prefix}{str(seq).zfill(4)}"
 
 
-# ----- Internal helpers -----
+# ── Internal helpers ───────────────────────────────────────────
 
 def _add_update(
     ticket_id:  UUID,
@@ -158,7 +158,7 @@ def _build_detail(ticket: Ticket, db: Session) -> TicketDetailResponse:
     )
 
 
-# ----- Public service functions -----
+# ── Public service functions ───────────────────────────────────
 
 def create_ticket(
     request: TicketCreate, tenant_id: UUID, current_user: User, db: Session
@@ -272,7 +272,7 @@ def update_ticket_status(
     if not ticket:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Ticket not found")
 
-    # ----- Workflow validation -----
+    # ── Workflow validation ────────────────────────────────────
     allowed = {
         TicketStatus.open:        [TicketStatus.in_progress, TicketStatus.cancelled],
         TicketStatus.in_progress: [TicketStatus.resolved,    TicketStatus.cancelled],
@@ -442,7 +442,7 @@ def update_ticket(
     return ticket
 
 
-# ----- Spare Part Usage -----
+# ── Spare Part Usage ───────────────────────────────────────────
 
 def add_spare_part_usage(
     ticket_id:    UUID,
@@ -586,7 +586,7 @@ def remove_spare_part_usage(
     db.commit()
 
 
-# ----- Delete Ticket -----
+# ── Delete Ticket ──────────────────────────────────────────────
 def delete_ticket(
     ticket_id:    UUID,
     tenant_id:    UUID,

@@ -1,31 +1,38 @@
+# /backend/.dockerignore
+# زي .gitignore بالظبط — بيقول لـ Docker متنسخش الملفات دي جوا الـ Image
+
+# البيئة الافتراضية (مش محتاجينها — الـ packages بتتنصب من requirements.txt)
 venv/
 .venv/
 env/
 
-
+# الـ cache files
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .Python
 
-
+# ملفات الـ tests
 tests/
 pytest.ini
 .coverage
 
-
+# ملفات الـ Git
 .git/
 .gitignore
 
+# ملفات الـ IDE
 .vscode/
 .idea/
 *.swp
 
+# ملفات الـ environment (الـ secrets مش هتتحط في الـ Image!)
 .env
 .env.*
 !.env.example
 
+# الـ backups
 backups/
 *.sql
 *.dump

@@ -1,3 +1,5 @@
+# /backend/app/models/device.py
+
 from sqlalchemy import (
     Column,
     String,

@@ -46,5 +46,5 @@ class SparePart(Base):
 
     __table_args__ = (Index("ix_spare_parts_tenant_id", "tenant_id"),)
 
-    # ----- Relationships -----
+    # ── Relationships ──────────────────────────────────────────
     usage = relationship("SparePartUsage", back_populates="spare_part")

@@ -19,7 +19,7 @@ from app.schemas.software import (
     DeviceSoftwareResponse,
 )
 
-# ----- Helpers -----
+# ── Helpers ────────────────────────────────────────────────────
 
 
 def _days_remaining(expiry: Optional[date]) -> Optional[int]:
@@ -81,7 +81,7 @@ def _get_license_or_404(
     return lic
 
 
-# ----- Software CRUD -----
+# ── Software CRUD ──────────────────────────────────────────────
 
 
 def create_software(request: SoftwareCreate, tenant_id: UUID, db: Session) -> Software:
@@ -175,7 +175,7 @@ def delete_software(software_id: UUID, tenant_id: UUID, db: Session) -> None:
     db.commit()
 
 
-# ----- License CRUD -----
+# ── License CRUD ───────────────────────────────────────────────
 
 
 def create_license(
@@ -267,7 +267,7 @@ def get_expiring_licenses(
     return [_to_license_response(l) for l in lics]
 
 
-# ----- Device Software -----
+# ── Device Software ────────────────────────────────────────────
 
 
 def install_software(

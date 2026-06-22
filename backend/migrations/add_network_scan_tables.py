@@ -22,7 +22,7 @@ depends_on    = None
 
 
 def upgrade() -> None:
-    # ----- network_scans -----
+    # ── network_scans ──────────────────────────────────────────
     op.create_table(
         "network_scans",
         sa.Column("id",          postgresql.UUID(as_uuid=True), primary_key=True),
@@ -46,7 +46,7 @@ def upgrade() -> None:
     )
     op.create_index("ix_network_scans_tenant_id", "network_scans", ["tenant_id"])
 
-    # ----- discovered_hosts -----
+    # ── discovered_hosts ───────────────────────────────────────
     op.create_table(
         "discovered_hosts",
         sa.Column("id",           postgresql.UUID(as_uuid=True), primary_key=True),

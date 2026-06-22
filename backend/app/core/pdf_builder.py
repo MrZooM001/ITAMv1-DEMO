@@ -15,7 +15,7 @@ from reportlab.platypus import (
     HRFlowable,
 )
 
-# ----- Colors -----
+# ── Colors ─────────────────────────────────────────────────────
 PRIMARY = colors.HexColor("#1E3A5F")
 SECONDARY = colors.HexColor("#2E86AB")
 LIGHT_GRAY = colors.HexColor("#F4F6F8")
@@ -59,7 +59,7 @@ def build_pdf(
     styles = getSampleStyleSheet()
     story = []
 
-    # ----- Header -----
+    # ── Header ─────────────────────────────────────────────────
     title_style = ParagraphStyle(
         "Title",
         parent=styles["Normal"],
@@ -80,7 +80,7 @@ def build_pdf(
     story.append(Paragraph(subtitle, sub_style))
     story.append(HRFlowable(width="100%", thickness=2, color=PRIMARY, spaceAfter=12))
 
-    # ----- Summary Cards -----
+    # ── Summary Cards ─────────────────────────────────────────
     if summary:
         card_data = [[str(v) for v in summary.values()]]
         card_heads = [[str(k) for k in summary.keys()]]
@@ -114,7 +114,7 @@ def build_pdf(
         story.append(card_table)
         story.append(Spacer(1, 0.5 * cm))
 
-    # ----- Data Table -----
+    # ── Data Table ─────────────────────────────────────────────
     if rows:
         col_count = len(headers)
         page_w = pagesize[0] - 3 * cm
@@ -125,7 +125,7 @@ def build_pdf(
         ]
         table = Table(table_data, colWidths=col_w, repeatRows=1)
 
-        # Row colors exchange
+        # Row colors تتبادل
         row_bgs = []
         for i in range(1, len(table_data)):
             color = LIGHT_GRAY if i % 2 == 0 else WHITE
@@ -159,7 +159,7 @@ def build_pdf(
     else:
         story.append(Paragraph("No data available.", styles["Normal"]))
 
-    # ----- Footer -----
+    # ── Footer ─────────────────────────────────────────────────
     story.append(Spacer(1, 0.5 * cm))
     story.append(HRFlowable(width="100%", thickness=0.5, color=DARK_GRAY))
     story.append(

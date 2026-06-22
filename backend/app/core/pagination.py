@@ -7,7 +7,9 @@ from dataclasses import dataclass
 T = TypeVar("T")
 
 
-# ----- Paginated Response Schema -----
+# ── Paginated Response Schema ──────────────────────────────────
+
+
 class PaginatedResponse(BaseModel, Generic[T]):
     items: list[T]
     total: int
@@ -18,7 +20,9 @@ class PaginatedResponse(BaseModel, Generic[T]):
     model_config = {"from_attributes": True}
 
 
-# ----- Pagination Dependency -----
+# ── Pagination Dependency ──────────────────────────────────────
+
+
 @dataclass
 class Pagination:
     """

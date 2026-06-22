@@ -31,7 +31,7 @@ class Employee(Base):
         Index("ix_employees_tenant_active", "tenant_id", "is_active"),
     )
 
-    # ----- Relationships -----
+    # ── Relationships ──────────────────────────────────────────
     department = relationship("Department", back_populates="employees")
     devices = relationship("Device", back_populates="employee")
     tickets = relationship(

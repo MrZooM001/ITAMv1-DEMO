@@ -21,7 +21,7 @@ from app.services import device as device_service
 router = APIRouter(prefix="/devices", tags=["Devices"])
 
 
-# ----- Device Types -----
+# ── Device Types ───────────────────────────────────────────────
 @router.post("/types", response_model=DeviceTypeResponse)
 def create_device_type(
     request:      DeviceTypeCreate,
@@ -59,7 +59,7 @@ def delete_device_type(
     return {"message": "Device type deleted successfully"}
 
 
-# ----- Device Type Fields -----
+# ── Device Type Fields ─────────────────────────────────────────
 @router.get("/types/{type_id}/fields", response_model=list[DeviceTypeFieldResponse])
 def get_type_fields(
     type_id:      UUID,
@@ -101,7 +101,7 @@ def delete_type_field(
     return {"message": "Field deleted successfully"}
 
 
-# ----- Device Models -----
+# ── Device Models ──────────────────────────────────────────────
 @router.post("/models", response_model=DeviceModelResponse)
 def create_device_model(
     request:      DeviceModelCreate,
@@ -139,7 +139,7 @@ def delete_device_model(
     return {"message": "Device model deleted successfully"}
 
 
-# ----- Devices -----
+# ── Devices ────────────────────────────────────────────────────
 @router.post("/", response_model=DeviceResponse)
 def create_device(
     request:      DeviceCreate,

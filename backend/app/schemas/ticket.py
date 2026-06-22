@@ -5,7 +5,7 @@ from typing import Optional
 from app.models.ticket import TicketStatus, TicketPriority
 
 
-# ----- Request Schemas -----
+# ── Request Schemas ────────────────────────────────────────────
 class TicketCreate(BaseModel):
     title:       str            = Field(..., min_length=3, max_length=300)
     description: Optional[str] = None
@@ -33,7 +33,7 @@ class TicketAssign(BaseModel):
     assigned_to: Optional[UUID] = None
 
 
-# ----- Sub-schemas -----
+# ── Sub-schemas ────────────────────────────────────────────────
 class TicketUpdateResponse(BaseModel):
     id: UUID
     ticket_id: UUID
@@ -58,7 +58,7 @@ class SparePartUsageResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Basic Response -----
+# ── Basic Response ─────────────────────────────────────────────
 class TicketResponse(BaseModel):
     id: UUID
     tenant_id: UUID
@@ -77,7 +77,7 @@ class TicketResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- List Response -----
+# ── List Response ──────────────────────────────────────────────
 class TicketSummaryResponse(BaseModel):
     """For list endpoints — no nested updates, adds resolved name fields."""
     id: UUID
@@ -98,7 +98,7 @@ class TicketSummaryResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Detail Response -----
+# ── Detail Response ────────────────────────────────────────────
 class TicketDetailResponse(TicketSummaryResponse):
     """For GET /{id} — adds full update history + spare parts used."""
     description:  Optional[str]            = None

@@ -21,7 +21,7 @@ from app.config import settings
 
 
 def login(request: LoginRequest, db: Session) -> TokenResponse:
-    # ----- تحقق من الـ user -----
+    # ── تحقق من الـ user ───────────────────────────────────────
     user = (
         db.query(User)
         .filter(User.email == request.email, User.is_active == True)
@@ -34,7 +34,7 @@ def login(request: LoginRequest, db: Session) -> TokenResponse:
             detail="Invalid email or password",
         )
 
-    # ----- إنشاء الـ tokens -----
+    # ── إنشاء الـ tokens ───────────────────────────────────────
     token_data = {
         "sub": str(user.id),
         "tenant_id": str(user.tenant_id),
@@ -44,7 +44,7 @@ def login(request: LoginRequest, db: Session) -> TokenResponse:
     access_token = create_access_token(token_data)
     refresh_token = create_refresh_token(token_data)
 
-    # ----- حفظ الـ refresh token في الـ DB -----
+    # ── حفظ الـ refresh token في الـ DB ───────────────────────
     expires_at = datetime.now(timezone.utc) + timedelta(
         days=settings.REFRESH_TOKEN_EXPIRE_DAYS
     )
@@ -55,7 +55,7 @@ def login(request: LoginRequest, db: Session) -> TokenResponse:
     )
     db.add(db_token)
 
-    # ----- تحديث آخر تسجيل دخول -----
+    # ── تحديث آخر تسجيل دخول ──────────────────────────────────
     user.last_login = datetime.now(timezone.utc)
     db.commit()
 
@@ -66,7 +66,7 @@ def login(request: LoginRequest, db: Session) -> TokenResponse:
 
 
 def logout(access_token: str, refresh_token: str, db: Session) -> None:
-    # ----- 1. احذف الـ refresh token من الـ DB -----─
+    # ── 1. احذف الـ refresh token من الـ DB ───────────────────
     db_token = (
         db.query(RefreshToken).filter(RefreshToken.token == refresh_token).first()
     )
@@ -74,7 +74,7 @@ def logout(access_token: str, refresh_token: str, db: Session) -> None:
         db.delete(db_token)
         db.commit()
 
-    # ----- 2. أضف الـ access token للـ Redis blacklist -----
+    # ── 2. أضف الـ access token للـ Redis blacklist ───────────
     # TTL = الوقت المتبقي لانتهاء صلاحية الـ access token
     payload = decode_token(access_token)
     if payload:
@@ -85,7 +85,7 @@ def logout(access_token: str, refresh_token: str, db: Session) -> None:
 
 
 def refresh_access_token(request: RefreshTokenRequest, db: Session) -> TokenResponse:
-    # ----- تحقق من الـ token في الـ DB -----
+    # ── تحقق من الـ token في الـ DB ────────────────────────────
     db_token = (
         db.query(RefreshToken)
         .filter(RefreshToken.token == request.refresh_token)
@@ -98,7 +98,7 @@ def refresh_access_token(request: RefreshTokenRequest, db: Session) -> TokenResp
             detail="Invalid refresh token",
         )
 
-    # ----- تحقق من انتهاء الصلاحية -----
+    # ── تحقق من انتهاء الصلاحية ───────────────────────────────
     if db_token.expires_at < datetime.now(timezone.utc):
         db.delete(db_token)
         db.commit()
@@ -107,7 +107,7 @@ def refresh_access_token(request: RefreshTokenRequest, db: Session) -> TokenResp
             detail="Refresh token expired",
         )
 
-    # ----- decode وإنشاء access token جديد -----─
+    # ── decode وإنشاء access token جديد ──────────────────────
     payload = decode_token(request.refresh_token)
     if not payload or payload.get("type") != "refresh":
         raise HTTPException(

@@ -5,7 +5,7 @@ from typing import Optional
 from app.models.network_scan import ScanStatus, DeviceTypeGuess
 
 
-# ----- Network interface -----
+# ── Network interface ───────────────────────────────────────────
 class NetworkInterfaceResponse(BaseModel):
     name:    str
     ip:      str
@@ -14,7 +14,7 @@ class NetworkInterfaceResponse(BaseModel):
     subnet:  str   # computed CIDR e.g. 192.168.1.0/24
 
 
-# ----- Trigger a scan -----
+# ── Trigger a scan ─────────────────────────────────────────────
 class ScanRequest(BaseModel):
     subnet: str = Field(
         ...,
@@ -32,7 +32,7 @@ class ScanRequest(BaseModel):
     )
 
 
-# ----- Single discovered host -----
+# ── Single discovered host ──────────────────────────────────────
 class DiscoveredHostResponse(BaseModel):
     id:           UUID
     ip:           str
@@ -50,7 +50,7 @@ class DiscoveredHostResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Scan summary (list view) -----
+# ── Scan summary (list view) ────────────────────────────────────
 class NetworkScanSummary(BaseModel):
     id:           UUID
     subnet:       str
@@ -66,12 +66,12 @@ class NetworkScanSummary(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# ----- Scan detail (includes all hosts) -----
+# ── Scan detail (includes all hosts) ───────────────────────────
 class NetworkScanDetail(NetworkScanSummary):
     hosts: list[DiscoveredHostResponse] = []
 
 
-# ----- Import a discovered host into assets -----
+# ── Import a discovered host into assets ────────────────────────
 class ImportHostRequest(BaseModel):
     host_id:        UUID
     name:           str  = Field(..., min_length=2, max_length=200)
@@ -79,7 +79,7 @@ class ImportHostRequest(BaseModel):
     department_id:  Optional[UUID] = None
 
 
-# ----- Bulk import -----
+# ── Bulk import ─────────────────────────────────────────────────
 class BulkImportRequest(BaseModel):
     imports: list[ImportHostRequest] = Field(..., min_length=1)
 
