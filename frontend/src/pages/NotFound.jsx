@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
 
-export default function NotFound() {
+export default function Notfound() {
     const navigate = useNavigate();
     return (
         <div className="min-h-screen bg-[var(--bg-base)] flex flex-col items-center justify-center text-center p-8">
