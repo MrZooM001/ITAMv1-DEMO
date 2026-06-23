@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     # Defaults to local dev origins if unset.
     CORS_ORIGINS: str = (
         "https://itam-v1-demo.vercel.app",
+        "https://itam-v1-demo-hazem0010.vercel.app",
         "https://itam-v1-demo-git-main-hazem0010.vercel.app",
     )
 
