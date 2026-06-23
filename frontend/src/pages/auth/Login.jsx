@@ -94,8 +94,8 @@ export default function Login() {
                             <MdComputer className="text-white text-xl" />
                         </div>
                         <div>
-                            <p className="font-bold text-[var(--text-primary)]">IT Assets</p>
-                            <p className="text-xs text-[var(--text-muted)]">Management System</p>
+                            <p className="font-bold text-[var(--text-primary)]">SpecDesk</p>
+                            <p className="text-xs text-[var(--text-muted)]">IT Assets Management System</p>
                         </div>
                     </div>
 
